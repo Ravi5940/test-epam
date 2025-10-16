@@ -21,6 +21,14 @@ jobs:
       - name: Make scripts executable
         run: chmod +x github_incidents.sh test_github_incidents.sh
 
+      - name: Save JSON output to file
+        run: bash ./github_incidents.sh > github_status.json
+
       - name: Run test script and add summary
         run: bash ./test_github_incidents.sh
-      
+
+      - name: Upload JSON as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-status-json
+          path: github_status.json
