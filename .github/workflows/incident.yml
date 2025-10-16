@@ -1,0 +1,26 @@
+name: GitHub Incidents Summary
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - github_incidents.sh
+      - test_github_incidents.sh
+      - .github/workflows/incident.yml
+
+jobs:
+  test-github-incidents:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Make scripts executable
+        run: chmod +x github_incidents.sh test_github_incidents.sh
+
+      - name: Run test script and add summary
+        run: bash ./test_github_incidents.sh
+      
